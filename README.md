@@ -1,9 +1,14 @@
 # controle-traslado-alunos
-Controle de Traslado de Alunos entre Campus da Faculdade.
+~~Controle de Traslado de Alunos entre Campus da Faculdade.~~
 
-Produzir em 5 dias corridos da data do recebimento (mas fica o deadline para dia 21/02, conforme vc pediu), preferencialmente com back-end em JAVA.
+~~Produzir em 5 dias corridos da data do recebimento (mas fica o deadline para dia 21/02, conforme vc pediu), preferencialmente com back-end em JAVA.~~
 
-O mesmo deverá possuir: "cadastro de usuários" ('nome', 'login', 'senha' e 'tipo de usuário' {enum: 'administração', 'aluno'}), "cadastro de veículos" ('descrição' e 'ocupação máxima'), "cadastro de destinos" (nome e sigla) e "solicitação de traslado" ('data desejada', 'turno desejado', 'destino desejado' e 'veículo').
+O mesmo deverá possuir:
+
+- "cadastro de usuários" ('nome', 'login', 'senha' e 'tipo de usuário' {enum: 'administração', 'aluno'});
+- "cadastro de veículos" ('descrição' e 'ocupação máxima');
+- "cadastro de destinos" (nome e sigla); e
+- "solicitação de traslado" ('data desejada', 'turno desejado', 'destino desejado' e 'veículo').
 
 O projeto deverá permitir que os usuários cadastrados se conectem ao sistema.
 
