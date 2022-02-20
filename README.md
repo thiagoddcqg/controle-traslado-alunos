@@ -1,8 +1,6 @@
 # controle-traslado-alunos
 ~~Controle de Traslado de Alunos entre Campus da Faculdade.~~
 
-~~Produzir em 5 dias corridos da data do recebimento (mas fica o deadline para dia 21/02, conforme vc pediu), preferencialmente com back-end em JAVA.~~
-
 O mesmo deverá possuir:
 
 - "cadastro de usuários" ('nome', 'login', 'senha' e 'tipo de usuário' {enum: 'administração', 'aluno'});
