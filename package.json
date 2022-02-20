@@ -1,0 +1,27 @@
+{
+  "name": "controle-traslado-alunos",
+  "version": "1.0.0",
+  "description": "Controle de Traslado de Alunos entre Campus da Faculdade.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagoddcqg/controle-traslado-alunos.git"
+  },
+  "author": "thiagoddcqg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thiagoddcqg/controle-traslado-alunos/issues"
+  },
+  "homepage": "https://github.com/thiagoddcqg/controle-traslado-alunos#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
