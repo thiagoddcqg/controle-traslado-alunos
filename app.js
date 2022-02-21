@@ -6,11 +6,11 @@ const bodyParser = require('body-parser');
 const usuario = require('./models/Usuario');
 const veiculo = require('./models/Veiculo');
 const destino = require('./models/Destino');
+const encoder = bodyParser.urlencoded();
 
 app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-const encoder = bodyParser.urlencoded();
-
+app.use('/favicon.ico', express.static('assets/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
