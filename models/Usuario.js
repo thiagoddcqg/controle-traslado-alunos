@@ -12,6 +12,10 @@ const Usuario = db.define('usuarios', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    tipo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
     login: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -19,12 +23,15 @@ const Usuario = db.define('usuarios', {
     senha: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    tipo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     }
 });
 
 // Criar a tabela
-Usuario.sync();
-
+// Usuario.sync({ force: true });
 // Usuario.sync({ alter:true });
 
 module.exports = Usuario;
