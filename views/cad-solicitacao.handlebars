@@ -1,20 +1,20 @@
 <h1>Solicitação de traslado</h1>
-<form action="/add-traslado" method="POST">
+<form action="/add-solicitacao" method="POST">
     <label>Data desejada</label>
     <input type="date" name="data">
     <br><br>
     <label>Turno desejado</label>
     <select name="turno">
-        <option value="M selected">Manhã</option>
+        <option value="M">Manhã</option>
         <option value="T">Tarde</option>
         <option value="N">Noite</option>
     </select>
     <br><br>
     <label>Destino desejado</label>
-    <input type="text" name="destino_desejado">
+    <input type="text" name="destinoId">
     <br><br>
     <label>Veículo desejado</label>
-    <input type="text" name="veiculo_desejado">
+    <input type="text" name="veiculoId">
     <br><br>
     <button type="submit">Confirmar</button>
 </form>

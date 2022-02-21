@@ -32,23 +32,34 @@ connection.connect(function (error) {
 });
 
 // Rotas
-app.get("/teste", function (req, res) {
+app.get("/lis-solicitacoes", function (req, res) {
     solicitacao.findAll({
         // , 'DESC'
-        order: [['id']]
+        order: [['id']],
+        include: [
+            {
+                attributes: ['nome'],
+                model: destino
+            },
+            {
+                attributes: ['descricao'],
+                model: veiculo
+            }
+        ]
+
     })
-    .then((solicitacoes) => {
-        return res.json({
-            erro: false,
-            solicitacoes
+        .then((solicitacoes) => {
+            return res.json({
+                erro: false,
+                solicitacoes
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Nenhuma solicitação encontrada!"
+            })
         })
-    }).catch(() => {
-        return res.status(400).json({
-            erro: true,
-            mensagem: "Erro: Nenhuma solicitação encontrada!"
-        })
-    })
-    ; 
+        ;
 });
 
 // Administrador = tipo 1
@@ -86,10 +97,6 @@ app.get("/", function (req, res) {
     res.render("inicio");
 });
 
-app.get("/sol-translado", function (req, res) {
-    res.render("sol-translado");
-});
-
 app.get("/login-admin", function (req, res) {
     res.render('login-admin');
 });
@@ -118,12 +125,21 @@ app.get("/cad-destino", function (req, res) {
     res.render('cad-destino');
 });
 
-app.get("/teste", function (req, res) {
-    res.render('teste');
+app.get("/cad-solicitacao", function (req, res) {
+    res.render("cad-solicitacao");
 });
 
-app.post("/add-traslado", function (req, res) {
-    // ???
+app.post("/add-solicitacao", function (req, res) {
+    solicitacao.create({
+        data: req.body.data,
+        turno: req.body.turno,
+        destinoId: req.body.destinoId,
+        veiculoId: req.body.veiculoId
+    }).then(function () {
+        res.redirect('/dashboard-aluno')
+    }).catch(function (erro) {
+        res.send("Erro: Solicitação não cadastrado com sucesso!" + erro)
+    })
 });
 
 app.post("/add-usuario", function (req, res) {
