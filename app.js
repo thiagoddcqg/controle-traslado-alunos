@@ -31,11 +31,13 @@ connection.connect(function(error){
 });
 
 // Rotas
+// Administrador = tipo 1
 app.post("/log-admin", encoder, function(req, res) {
     var login_admin = req.body.login;
     var senha_admin = req.body.senha;
 
-    connection.query("select * from usuarios where login = ? and senha = ?",[login_admin, senha_admin], function(error, results, fields){
+    connection.query("select * from controle_traslado_alunos.usuarios where tipo = 1 and login = ? and senha = ?;",
+    [login_admin, senha_admin], function(error, results, fields){
         if (results.length > 0) {
             res.redirect("/dashboard-admin");
         } else {
@@ -46,11 +48,12 @@ app.post("/log-admin", encoder, function(req, res) {
     })
 })
 
+// Aluno = tipo 2
 app.post("/log-aluno", encoder, function(req, res) {
     var login_aluno = req.body.login;
     var senha_aluno = req.body.senha;
 
-    connection.query("select * from usuarios where login = ? and senha = ?",[login_aluno, senha_aluno], function(error, results, fields){
+    connection.query("select * from controle_traslado_alunos.usuarios where tipo = 2 and login = ? and senha = ?;",[login_aluno, senha_aluno], function(error, results, fields){
         if (results.length > 0) {
             res.redirect("/dashboard-aluno");
         } else {
