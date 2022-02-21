@@ -62,11 +62,11 @@ app.post("/log-aluno", encoder, function(req, res) {
 })
 
 app.get("/", function(req, res) {
-    res.render('inicio');
+    res.render("inicio");
 });
 
-app.get("/translado", function(req, res) {
-    res.render('translado');
+app.get("/sol-translado", function(req, res) {
+    res.render("sol-translado");
 });
 
 app.get("/login-admin", function(req, res) {
@@ -99,6 +99,10 @@ app.get("/cad-destino", function(req, res) {
 
 app.get("/teste", function(req, res) {
     res.render('teste');
+});
+
+app.post("/add-traslado", function(req, res) {
+    // ???
 });
 
 app.post("/add-usuario", function(req, res) {
