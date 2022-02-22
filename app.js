@@ -133,10 +133,9 @@ app.post("/add-solicitacao", function (req, res) {
     var usuarioId =  req.body.usuarioId;
     var data = req.body.data;
     var turno = req.body.turno;
-    var destinoId = req.body.destinoId;
 
-    connection.query("select * from controle_traslado_alunos.solicitacoes where usuarioId = ? and data = ? and turno = ? and destinoId = ?;",
-        [usuarioId, data, turno, destinoId], function (error, results, fields) {
+    connection.query("select * from controle_traslado_alunos.solicitacoes where usuarioId = ? and data = ? and turno = ?;",
+        [usuarioId, data, turno], function (error, results, fields) {
             if (results.length > 0) {
                 // Não prossegue
                 res.redirect('/cad-solicitacao')
