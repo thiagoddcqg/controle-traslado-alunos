@@ -38,6 +38,10 @@ app.get("/lis-solicitacoes", function (req, res) {
         order: [['id']],
         include: [
             {
+                attributes: ['login'],
+                model: usuario
+            },
+            {
                 attributes: ['nome'],
                 model: destino
             },
@@ -57,6 +61,24 @@ app.get("/lis-solicitacoes", function (req, res) {
             return res.status(400).json({
                 erro: true,
                 mensagem: "Erro: Nenhuma solicitação encontrada!"
+            })
+        })
+        ;
+});
+
+app.get("/lis-veiculos", function (req, res) {
+    veiculo.findAll({
+        order: [['id']]
+    })
+        .then((solicitacoes) => {
+            return res.json({
+                erro: false,
+                veiculo
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Nenhum veículo encontrado!"
             })
         })
         ;
@@ -130,9 +152,10 @@ app.get("/cad-solicitacao", function (req, res) {
 });
 
 app.post("/add-solicitacao", function (req, res) {
-    var usuarioId =  req.body.usuarioId;
+    var usuarioId = req.body.usuarioId;
     var data = req.body.data;
     var turno = req.body.turno;
+    var veiculoId = req.body.veiculoId;
 
     connection.query("select * from controle_traslado_alunos.solicitacoes where usuarioId = ? and data = ? and turno = ?;",
         [usuarioId, data, turno], function (error, results, fields) {
@@ -141,17 +164,27 @@ app.post("/add-solicitacao", function (req, res) {
                 res.redirect('/cad-solicitacao')
             } else {
                 // Prosseguir com o cadastro
-                solicitacao.create({
-                    usuarioId: req.body.usuarioId,
-                    data: req.body.data,
-                    turno: req.body.turno,
-                    destinoId: req.body.destinoId,
-                    veiculoId: req.body.veiculoId
-                }).then(function () {
-                    res.redirect('/dashboard-aluno')
-                }).catch(function (erro) {
-                    res.send("Erro: Solicitação não cadastrada com sucesso! " + erro)
-                })
+                connection.query("select * from controle_traslado_alunos.solicitacoes where data = ? and turno = ? and destinoId = ? and veiculoId = ?;", 
+                [data, turno, veiculoId], function (error, results, fields) {
+                    connection.query("select ocupacao_max from controle_traslado_alunos.veiculos where veiculoId = ?;",
+                    [veiculoId], function (error2, results2, fields2) {
+                        if (results.lenght <= results2.ocupacao_max) {
+                            solicitacao.create({
+                                usuarioId: req.body.usuarioId,
+                                data: req.body.data,
+                                turno: req.body.turno,
+                                destinoId: req.body.destinoId,
+                                veiculoId: req.body.veiculoId
+                            }).then(function () {
+                                res.redirect('/dashboard-aluno')
+                            }).catch(function (erro) {
+                                res.send("Erro: Solicitação não cadastrada com sucesso! " + erro)
+                            })
+                        } else {
+                            res.redirect('/cad-solicitacao')
+                        }
+                    });
+                });
             }
         });
 });
