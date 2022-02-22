@@ -18,7 +18,7 @@ O sistema não deverá permitir mais solicitações do que o veículo suporte pa
 
 Caso o veículo já esteja lotado para a data, turno e destino selecionados, o tal veículo não deverá aparecer para ser selecionado/escolhido.
 
-O sistema não deverá permitir solicitações em duplicidade de usuário/aluno para o mesmo dia, turno e destino.
+~~O sistema não deverá permitir solicitações em duplicidade de usuário/aluno para o mesmo dia, turno e destino.~~
 
 Não deverá permitir que o usuário/aluno realize duas solicitações para destinos diferentes na mesma data e turno.
 

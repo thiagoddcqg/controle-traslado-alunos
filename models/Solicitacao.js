@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
-const destino = require('./Destino');
-const veiculo = require('./Veiculo');
 
 const Solicitacao = db.define('solicitacoes', {
     id: {
@@ -9,6 +7,10 @@ const Solicitacao = db.define('solicitacoes', {
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
+    },
+    usuarioId: {
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     data: {
         type: Sequelize.DATEONLY,
@@ -30,13 +32,5 @@ const Solicitacao = db.define('solicitacoes', {
 
 // Criar a tabela
 // Solicitacao.sync({ force: true });
-
-Solicitacao.belongsTo(destino, {
-    foreignKey: 'destinoId', allowNull: false
-});
-
-Solicitacao.belongsTo(veiculo, {
-    foreignKey: 'veiculoId', allowNull: false
-});
 
 module.exports = Solicitacao;

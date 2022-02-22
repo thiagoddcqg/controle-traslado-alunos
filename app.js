@@ -130,16 +130,31 @@ app.get("/cad-solicitacao", function (req, res) {
 });
 
 app.post("/add-solicitacao", function (req, res) {
-    solicitacao.create({
-        data: req.body.data,
-        turno: req.body.turno,
-        destinoId: req.body.destinoId,
-        veiculoId: req.body.veiculoId
-    }).then(function () {
-        res.redirect('/dashboard-aluno')
-    }).catch(function (erro) {
-        res.send("Erro: Solicitação não cadastrado com sucesso!" + erro)
-    })
+    var usuarioId =  req.body.usuarioId;
+    var data = req.body.data;
+    var turno = req.body.turno;
+    var destinoId = req.body.destinoId;
+
+    connection.query("select * from controle_traslado_alunos.solicitacoes where usuarioId = ? and data = ? and turno = ? and destinoId = ?;",
+        [usuarioId, data, turno, destinoId], function (error, results, fields) {
+            if (results.length > 0) {
+                // Não prossegue
+                res.redirect('/cad-solicitacao')
+            } else {
+                // Prosseguir com o cadastro
+                solicitacao.create({
+                    usuarioId: req.body.usuarioId,
+                    data: req.body.data,
+                    turno: req.body.turno,
+                    destinoId: req.body.destinoId,
+                    veiculoId: req.body.veiculoId
+                }).then(function () {
+                    res.redirect('/dashboard-aluno')
+                }).catch(function (erro) {
+                    res.send("Erro: Solicitação não cadastrada com sucesso! " + erro)
+                })
+            }
+        });
 });
 
 app.post("/add-usuario", function (req, res) {
