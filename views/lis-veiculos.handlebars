@@ -1,0 +1,9 @@
+<h1>Listar veículos</h1>
+<br><br>
+{{#each veiculos}}
+    ID: {{id}}<br>
+    Descriçao: {{descricao}}<br>
+    Ocupação máxima: {{ocupacao_max}}<br>
+    Data de cadastro: {{#formatDate createdAt}}{{/formatDate}}<br>
+    <hr>
+{{/each}}

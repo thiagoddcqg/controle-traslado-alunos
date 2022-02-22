@@ -1,0 +1,12 @@
+<h1>Listar solicitações</h1>
+<br><br>
+{{#each solicitacoes}}
+    ID: {{id}}<br>
+    Login do aluno: {{usuarioId}}<br>
+    Data: {{#formatDate data}}{{/formatDate}}<br>
+    Turno: {{turno}}<br>
+    ID do destino: {{destinoId}}<br>
+    ID do veiculo: {{veiculoId}}<br>
+    Data de cadastro: {{#formatDate createdAt}}{{/formatDate}}<br>
+    <hr>
+{{/each}}

@@ -3,13 +3,25 @@ const mysql = require('mysql');
 const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
+const moment = require('moment')
 const usuario = require('./models/Usuario');
 const veiculo = require('./models/Veiculo');
 const destino = require('./models/Destino');
 const solicitacao = require('./models/Solicitacao');
 const encoder = bodyParser.urlencoded();
 
-app.engine('handlebars', handlebars.engine({ defaultLayout: 'main' }));
+app.engine('handlebars', handlebars.engine({
+    defaultLayout: 'main',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
+    helpers: {
+        formatDate: (date) => {
+            return moment(date).format('DD/MM/YYYY')
+        }
+    }
+ }));
 app.set('view engine', 'handlebars');
 app.use('/favicon.ico', express.static('assets/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -33,55 +45,15 @@ connection.connect(function (error) {
 
 // Rotas
 app.get("/lis-solicitacoes", function (req, res) {
-    solicitacao.findAll({
-        // , 'DESC'
-        order: [['id']],
-        include: [
-            {
-                attributes: ['login'],
-                model: usuario
-            },
-            {
-                attributes: ['nome'],
-                model: destino
-            },
-            {
-                attributes: ['descricao'],
-                model: veiculo
-            }
-        ]
-
+    solicitacao.findAll({ order: [['id', 'DESC']]}).then(function(solicitacoes){
+        res.render('lis-solicitacoes', {solicitacoes});
     })
-        .then((solicitacoes) => {
-            return res.json({
-                erro: false,
-                solicitacoes
-            })
-        }).catch(() => {
-            return res.status(400).json({
-                erro: true,
-                mensagem: "Erro: Nenhuma solicitação encontrada!"
-            })
-        })
-        ;
 });
 
 app.get("/lis-veiculos", function (req, res) {
-    veiculo.findAll({
-        order: [['id']]
+    veiculo.findAll({ order: [['id', 'DESC']]}).then(function(veiculos){
+        res.render('lis-veiculos', {veiculos});
     })
-        .then((solicitacoes) => {
-            return res.json({
-                erro: false,
-                veiculo
-            })
-        }).catch(() => {
-            return res.status(400).json({
-                erro: true,
-                mensagem: "Erro: Nenhum veículo encontrado!"
-            })
-        })
-        ;
 });
 
 // Administrador = tipo 1
