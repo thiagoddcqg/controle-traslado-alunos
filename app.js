@@ -21,7 +21,7 @@ app.engine('handlebars', handlebars.engine({
             return moment(date).format('DD/MM/YYYY')
         }
     }
- }));
+}));
 app.set('view engine', 'handlebars');
 app.use('/favicon.ico', express.static('assets/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -45,14 +45,14 @@ connection.connect(function (error) {
 
 // Rotas
 app.get("/lis-solicitacoes", function (req, res) {
-    solicitacao.findAll({ order: [['id', 'DESC']]}).then(function(solicitacoes){
-        res.render('lis-solicitacoes', {solicitacoes});
+    solicitacao.findAll({ order: [['id', 'DESC']] }).then(function (solicitacoes) {
+        res.render('lis-solicitacoes', { solicitacoes });
     })
 });
 
 app.get("/lis-veiculos", function (req, res) {
-    veiculo.findAll({ order: [['id', 'DESC']]}).then(function(veiculos){
-        res.render('lis-veiculos', {veiculos});
+    veiculo.findAll({ order: [['id', 'DESC']] }).then(function (veiculos) {
+        res.render('lis-veiculos', { veiculos });
     })
 });
 
@@ -127,20 +127,21 @@ app.post("/add-solicitacao", function (req, res) {
     var usuarioId = req.body.usuarioId;
     var data = req.body.data;
     var turno = req.body.turno;
+    var destinoId = req.body.destinoId;
     var veiculoId = req.body.veiculoId;
 
+    // Usuário duplicado
     connection.query("select * from controle_traslado_alunos.solicitacoes where usuarioId = ? and data = ? and turno = ?;",
-        [usuarioId, data, turno], function (error, results, fields) {
-            if (results.length > 0) {
+        [usuarioId, data, turno], function (error1, results1, fields1) {
+            if (results1.length > 0) {
                 // Não prossegue
-                res.redirect('/cad-solicitacao')
+                res.send("Erro: Usuário duplicado! " + error1)
+                // res.redirect('/cad-solicitacao')
             } else {
                 // Prosseguir com o cadastro
-                connection.query("select * from controle_traslado_alunos.solicitacoes where data = ? and turno = ? and destinoId = ? and veiculoId = ?;", 
-                [data, turno, veiculoId], function (error, results, fields) {
-                    connection.query("select ocupacao_max from controle_traslado_alunos.veiculos where veiculoId = ?;",
-                    [veiculoId], function (error2, results2, fields2) {
-                        if (results.lenght <= results2.ocupacao_max) {
+                connection.query("select * from controle_traslado_alunos.solicitacoes where data = ? and turno = ? and destinoId = ? and veiculoId = ?;", [data, turno, destinoId, veiculoId], function (error2, results2, fields2) {
+                    connection.query("select ocupacao_max from controle_traslado_alunos.veiculos where id = ?;", [veiculoId], function (error3, results3, fields3) {
+                        if (results2.lenght < results3.ocupacao_max) {
                             solicitacao.create({
                                 usuarioId: req.body.usuarioId,
                                 data: req.body.data,
@@ -155,10 +156,10 @@ app.post("/add-solicitacao", function (req, res) {
                         } else {
                             res.redirect('/cad-solicitacao')
                         }
-                    });
-                });
+                    })
+                })
             }
-        });
+        })
 });
 
 app.post("/add-usuario", function (req, res) {
